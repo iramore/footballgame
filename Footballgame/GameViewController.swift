@@ -11,25 +11,27 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
+    
+    var scene: GameScene!
+    
+    func beginGame(){
+        let skView = view as! SKView
+        //skView.isMultipleTouchEnabled = false
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        skView.showsPhysics = true
+        scene = GameScene(size: skView.bounds.size)
+        scene.addBall()
+        skView.presentScene(scene)
+    }
 
+    @IBAction func restartBtnPressed(_ sender: Any) {
+        beginGame()
+    }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                
-                // Present the scene
-                view.presentScene(scene)
-            }
-            
-            view.ignoresSiblingOrder = true
-            
-            view.showsFPS = true
-            view.showsNodeCount = true
-        }
+        beginGame()
     }
 
     override var shouldAutorotate: Bool {

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D344519D1EF848AB00402D4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D344519C1EF848AB00402D4D /* AppDelegate.swift */; };
-		D344519F1EF848AB00402D4D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D344519E1EF848AB00402D4D /* GameScene.sks */; };
-		D34451A11EF848AB00402D4D /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D34451A01EF848AB00402D4D /* Actions.sks */; };
 		D34451A31EF848AB00402D4D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34451A21EF848AB00402D4D /* GameScene.swift */; };
 		D34451A51EF848AB00402D4D /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34451A41EF848AB00402D4D /* GameViewController.swift */; };
 		D34451A81EF848AB00402D4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D34451A61EF848AB00402D4D /* Main.storyboard */; };
@@ -20,8 +18,6 @@
 /* Begin PBXFileReference section */
 		D34451991EF848AB00402D4D /* Footballgame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Footballgame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D344519C1EF848AB00402D4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D344519E1EF848AB00402D4D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D34451A01EF848AB00402D4D /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		D34451A21EF848AB00402D4D /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D34451A41EF848AB00402D4D /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		D34451A71EF848AB00402D4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,8 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				D344519C1EF848AB00402D4D /* AppDelegate.swift */,
-				D344519E1EF848AB00402D4D /* GameScene.sks */,
-				D34451A01EF848AB00402D4D /* Actions.sks */,
 				D34451A21EF848AB00402D4D /* GameScene.swift */,
 				D34451A41EF848AB00402D4D /* GameViewController.swift */,
 				D34451A61EF848AB00402D4D /* Main.storyboard */,
@@ -105,6 +99,7 @@
 				TargetAttributes = {
 					D34451981EF848AB00402D4D = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 83H63AD9J8;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -133,10 +128,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D34451A81EF848AB00402D4D /* Main.storyboard in Resources */,
-				D344519F1EF848AB00402D4D /* GameScene.sks in Resources */,
 				D34451AA1EF848AB00402D4D /* Assets.xcassets in Resources */,
 				D34451AD1EF848AB00402D4D /* LaunchScreen.storyboard in Resources */,
-				D34451A11EF848AB00402D4D /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +265,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 83H63AD9J8;
 				INFOPLIST_FILE = Footballgame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.galkina.Footballgame;
@@ -284,6 +278,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 83H63AD9J8;
 				INFOPLIST_FILE = Footballgame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.galkina.Footballgame;
@@ -311,6 +306,7 @@
 				D34451B31EF848AB00402D4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
