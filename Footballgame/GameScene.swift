@@ -13,27 +13,40 @@ struct PhysicsCatagory {
     static let Obstacle : UInt32 = 0x1 << 1
     static let Knee : UInt32 = 0x1 << 3
     static let Ball : UInt32 = 0x1 << 2
+    static let Ground : UInt32 = 0x1 << 4
+}
+
+protocol GameOverDelegate: class {
+    func gameOver(score: Int)
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-   
+    
+    var gameOverDel: GameOverDelegate?
+    
     var startLocation:CGPoint?
     var ball : SKSpriteNode
     var distance: CGFloat = 0.0
     var yVelocity:CGFloat = 0.0
-     private var spinnyNode : SKShapeNode?
-    
-    private var sprites = [SKSpriteNode]()
+    private var spinnyNode : SKShapeNode?
+    var sprite: SKSpriteNode
+    let scoreLbl = SKLabelNode()
+    var sprites = [SKSpriteNode]()
+    var score:Int = 0
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
     }
     
     override init(size: CGSize) {
+        let screenSize = UIScreen.main.bounds
         ball = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 55,height:  55))
         let ballTexture = SKTexture(imageNamed: "ball")
-        //let ballTexture = SKTexture(imageNamed: "\(theme)_face1")
+        
         ball.texture = ballTexture
+        let kneeTexture = SKTexture(imageNamed: "knee")
+        
+        sprite = SKSpriteNode(texture: kneeTexture)
         super.init(size: size)
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         let background = SKSpriteNode(imageNamed: "back")
@@ -53,6 +66,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }
+        
+        scoreLbl.position = CGPoint(x: -screenSize.width/2 + 40, y: screenSize.height/2 - 60)
+        scoreLbl.text = "\(score)"
+        scoreLbl.fontName = "Avenir"
+        scoreLbl.zPosition = 5
+        scoreLbl.fontSize = 60
+        self.addChild(scoreLbl)
     }
     
     func addBall(){
@@ -62,8 +82,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         ball.physicsBody?.friction = 0
         ball.physicsBody?.categoryBitMask = PhysicsCatagory.Ball
-        ball.physicsBody?.collisionBitMask = PhysicsCatagory.Knee
-        ball.physicsBody?.contactTestBitMask = PhysicsCatagory.Knee
+        ball.physicsBody?.collisionBitMask = PhysicsCatagory.Ground | PhysicsCatagory.Knee
+        ball.physicsBody?.contactTestBitMask = PhysicsCatagory.Ground
         ball.physicsBody?.fieldBitMask = 0
         ball.physicsBody?.angularDamping = 0
         ball.physicsBody?.linearDamping = 0
@@ -72,7 +92,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody?.pinned = false
         ball.physicsBody?.isDynamic = true
         ball.position = CGPoint(x: 0, y: screenSize.height/2)
-        ball.position = CGPoint(x: ball.position.x, y: ball.position.y)
         ball.physicsBody?.affectedByGravity=true
         addChild(ball)
     }
@@ -80,12 +99,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func addGround(){
+        let screenSize = UIScreen.main.bounds
+        let groundTexture = SKTexture(imageNamed: "ground")
+        let spriteGround = SKSpriteNode(texture: groundTexture)
+        spriteGround.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: spriteGround.size.width,
+                                                                     height: spriteGround.size.height))
+        spriteGround.physicsBody?.isDynamic=false
+        spriteGround.physicsBody?.affectedByGravity=false
+        
+        spriteGround.physicsBody?.friction = 0
+        spriteGround.physicsBody?.restitution = 0
+        spriteGround.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        spriteGround.physicsBody?.categoryBitMask = PhysicsCatagory.Ground
+        spriteGround.physicsBody?.collisionBitMask = PhysicsCatagory.Ball
+        spriteGround.physicsBody?.contactTestBitMask = PhysicsCatagory.Ball
+        spriteGround.position = CGPoint(x: 0, y: -screenSize.height/2 + spriteGround.size.height/2)
+        spriteGround.physicsBody?.linearDamping=0.1
+        spriteGround.physicsBody?.angularDamping=0.1
+        spriteGround.physicsBody?.velocity = CGVector(dx:0,dy:0)
+        self.addChild(spriteGround)
         
     }
-
+    
     
     override func didMove(to view: SKView) {
-           }
+    }
     
     func touchDown(atPoint pos : CGPoint) {
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {
@@ -102,59 +140,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(n)
         }
     }
-
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             startLocation = t.location(in: self)
         }
         //for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+        
+        addObs(t: touches.first!)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-       //for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        //for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        sprite.position = (touches.first?.location(in: self))!
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        addAndRemoveObs(t: touches.first!)
+        removeSprite()
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        addAndRemoveObs(t: touches.first!)
+        removeSprite()
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
         let firstBody = contact.bodyA
         let secondBody = contact.bodyB
         
-        if firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Knee  {
+        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Knee) || (firstBody.categoryBitMask == PhysicsCatagory.Knee && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
+            score += 1
+            scoreLbl.text = "\(score)"
             
-            //ball.physicsBody?.restitution *= distance/50
-
-            
-            
-            
-        }
-        else if firstBody.categoryBitMask == PhysicsCatagory.Knee && secondBody.categoryBitMask == PhysicsCatagory.Ball {
            
-             //ball.physicsBody?.restitution *= distance/50
-            
         }
+        
+        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Ground) || (firstBody.categoryBitMask == PhysicsCatagory.Ground && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
+            print("game over")
+            gameOverDel?.gameOver(score: score)
+            ball.removeFromParent()
+            scoreLbl.removeFromParent()
+           
+        }
+        
+        
     }
-
     
     
-    func addAndRemoveObs(t: UITouch){
+    
+    func addObs(t: UITouch){
         
         let kneeTexture = SKTexture(imageNamed: "knee")
         
-        let sprite = SKSpriteNode(texture: kneeTexture)
+        sprite = SKSpriteNode(texture: kneeTexture)
         sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
         
         
         //sprite.physicsBody = SKPhysicsBody(texture: kneeTexture,
-                                                     // size: CGSize(width: sprite.size.width,
-                                                               //    height: sprite.size.height))
+        // size: CGSize(width: sprite.size.width,
+        //    height: sprite.size.height))
         
         sprite.physicsBody?.isDynamic=false
         sprite.physicsBody?.affectedByGravity=false
@@ -169,14 +213,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprite.physicsBody?.linearDamping=0.1
         sprite.physicsBody?.angularDamping=0.1
         sprite.physicsBody?.velocity = CGVector(dx:0,dy:0)
-       
+        
         sprites.append(sprite)
         self.addChild(sprite)
+        
+    }
+    
+    func removeSprite(){
         let action = SKAction.fadeOut(withDuration: 1)
         
-        let dx = -(t.location(in: self).x - startLocation!.x)
-        let dy = -(t.location(in: self).y - startLocation!.y)
-        distance = sqrt(dx*dx + dy*dy )
+        // let dx = -(t.location(in: self).x - startLocation!.x)
+        //let dy = -(t.location(in: self).y - startLocation!.y)
+        //distance = sqrt(dx*dx + dy*dy )
         
         
         sprite.run(action, completion:
@@ -190,6 +238,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
-        
+        let screenSize = UIScreen.main.bounds
+        if ball.position.x > screenSize.width/2 || ball.position.x < -screenSize.width/2 || ball.position.y > screenSize.height/2 {
+            gameOverDel?.gameOver(score: score)
+            ball.removeFromParent()
+            scoreLbl.removeFromParent()
+        }
     }
 }

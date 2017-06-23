@@ -10,23 +10,34 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, GameOverDelegate {
     
+    internal func gameOver(score: Int) {
+        gameOverView.isHidden = false
+        gameOverLblScore.text = "\(score)"
+    }
+
+    
+    @IBOutlet weak var gameOverLblScore: UILabel!
     var scene: GameScene!
     
+    @IBAction func restartBtnAct(_ sender: Any) {
+        beginGame()
+    }
+    
+    @IBOutlet weak var gameOverView: UIView!
     func beginGame(){
+        gameOverView.isHidden = true
         let skView = view as! SKView
         //skView.isMultipleTouchEnabled = false
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.showsPhysics = true
         scene = GameScene(size: skView.bounds.size)
+        scene.gameOverDel = self
         scene.addBall()
+        scene.addGround()
         skView.presentScene(scene)
-    }
-
-    @IBAction func restartBtnPressed(_ sender: Any) {
-        beginGame()
     }
    
     override func viewDidLoad() {
