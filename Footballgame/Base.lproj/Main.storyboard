@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -56,11 +57,24 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MlQ-UI-zu9">
+                                        <rect key="frame" x="138" y="285" width="53" height="75"/>
+                                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="MlQ-UI-zu9" secondAttribute="height" multiplier="53:75" id="CTD-GB-pn5"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="52"/>
+                                        <state key="normal" title="F">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="8we-8y-Fld" firstAttribute="width" secondItem="X3d-LK-dBj" secondAttribute="height" multiplier="92:285" constant="32" id="0UT-pK-3B9"/>
+                                    <constraint firstItem="MlQ-UI-zu9" firstAttribute="top" secondItem="X3d-LK-dBj" secondAttribute="centerY" id="0ke-mU-5KJ"/>
                                     <constraint firstItem="X3d-LK-dBj" firstAttribute="centerY" secondItem="K91-B2-xcw" secondAttribute="centerY" id="1k6-mP-Xpc"/>
                                     <constraint firstItem="oul-R2-StH" firstAttribute="leading" secondItem="TfB-Xz-z6e" secondAttribute="trailing" id="37L-gv-NTa"/>
+                                    <constraint firstItem="MlQ-UI-zu9" firstAttribute="centerX" secondItem="X3d-LK-dBj" secondAttribute="centerX" id="BKE-o3-IIj"/>
                                     <constraint firstItem="8we-8y-Fld" firstAttribute="centerX" secondItem="X3d-LK-dBj" secondAttribute="centerX" id="JJB-uS-6O9"/>
                                     <constraint firstAttribute="width" secondItem="K91-B2-xcw" secondAttribute="height" multiplier="329:570" id="Q2S-Dc-KlN"/>
                                     <constraint firstItem="TfB-Xz-z6e" firstAttribute="leading" secondItem="X3d-LK-dBj" secondAttribute="leading" id="SDJ-9B-LWG"/>
@@ -83,6 +97,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="facebookBtn" destination="MlQ-UI-zu9" id="PxY-aP-a0a"/>
                         <outlet property="gameOverLblScore" destination="oul-R2-StH" id="yNs-Sh-8RY"/>
                         <outlet property="gameOverView" destination="K91-B2-xcw" id="w5t-iW-lcM"/>
                     </connections>

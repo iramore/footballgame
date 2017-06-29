@@ -239,7 +239,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         let screenSize = UIScreen.main.bounds
-        if ball.position.x > screenSize.width/2 || ball.position.x < -screenSize.width/2 || ball.position.y > screenSize.height/2 {
+        if ball.position.x > screenSize.width/2 + 65 || ball.position.x < -screenSize.width/2 - 65 || ball.position.y < -screenSize.height/2 - 100{
             gameOverDel?.gameOver(score: score)
             ball.removeFromParent()
             scoreLbl.removeFromParent()

@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import FBSDKLoginKit
 
 class GameViewController: UIViewController, GameOverDelegate {
     
@@ -17,6 +18,7 @@ class GameViewController: UIViewController, GameOverDelegate {
         gameOverLblScore.text = "\(score)"
     }
 
+    @IBOutlet weak var facebookBtn: UIButton!
     
     @IBOutlet weak var gameOverLblScore: UILabel!
     var scene: GameScene!
@@ -39,12 +41,48 @@ class GameViewController: UIViewController, GameOverDelegate {
         scene.addGround()
         skView.presentScene(scene)
     }
+    
+//    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+//        print("Did log out of facebook")
+//    }
+//    
+//    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+//        if error != nil {
+//            print(error)
+//            return
+//        }
+//        
+//        print("Successfully logged in with facebook...")
+//    }
    
     override func viewDidLoad() {
         super.viewDidLoad()
         beginGame()
+        facebookBtn.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
     }
-
+    
+    func handleCustomFBLogin() {
+        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+            if err != nil {
+                print("Custom FB Login failed:", err)
+                return
+            }
+            
+            self.showEmailAddress()
+        }
+    }
+    
+    func showEmailAddress() {
+        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start { (connection, result, err) in
+            
+            if err != nil {
+                print("Failed to start graph request:", err)
+                return
+            }
+            print(result)
+        }
+    }
+    
     override var shouldAutorotate: Bool {
         return true
     }

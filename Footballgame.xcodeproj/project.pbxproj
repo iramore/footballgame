@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A093E90DE47DFF38A7308447 /* Pods_Footballgame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F16BD775BE00E38E3DAC0D /* Pods_Footballgame.framework */; };
 		D344519D1EF848AB00402D4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D344519C1EF848AB00402D4D /* AppDelegate.swift */; };
 		D34451A31EF848AB00402D4D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34451A21EF848AB00402D4D /* GameScene.swift */; };
 		D34451A51EF848AB00402D4D /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34451A41EF848AB00402D4D /* GameViewController.swift */; };
@@ -16,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		425831A3FA14374F82B00D02 /* Pods-Footballgame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Footballgame.release.xcconfig"; path = "Pods/Target Support Files/Pods-Footballgame/Pods-Footballgame.release.xcconfig"; sourceTree = "<group>"; };
+		98F16BD775BE00E38E3DAC0D /* Pods_Footballgame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Footballgame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A61D5CCF89333184AC878868 /* Pods-Footballgame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Footballgame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Footballgame/Pods-Footballgame.debug.xcconfig"; sourceTree = "<group>"; };
 		D34451991EF848AB00402D4D /* Footballgame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Footballgame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D344519C1EF848AB00402D4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D34451A21EF848AB00402D4D /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -24,6 +28,7 @@
 		D34451A91EF848AB00402D4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D34451AC1EF848AB00402D4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D34451AE1EF848AB00402D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3549F471F052A7500242BE0 /* Footballgame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Footballgame.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +36,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A093E90DE47DFF38A7308447 /* Pods_Footballgame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39EC304F1422A95E47844F30 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A61D5CCF89333184AC878868 /* Pods-Footballgame.debug.xcconfig */,
+				425831A3FA14374F82B00D02 /* Pods-Footballgame.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7318D7DB56730333984BA249 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				98F16BD775BE00E38E3DAC0D /* Pods_Footballgame.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D34451901EF848AB00402D4D = {
 			isa = PBXGroup;
 			children = (
 				D344519B1EF848AB00402D4D /* Footballgame */,
 				D344519A1EF848AB00402D4D /* Products */,
+				39EC304F1422A95E47844F30 /* Pods */,
+				7318D7DB56730333984BA249 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,6 +81,7 @@
 		D344519B1EF848AB00402D4D /* Footballgame */ = {
 			isa = PBXGroup;
 			children = (
+				D3549F471F052A7500242BE0 /* Footballgame.entitlements */,
 				D344519C1EF848AB00402D4D /* AppDelegate.swift */,
 				D34451A21EF848AB00402D4D /* GameScene.swift */,
 				D34451A41EF848AB00402D4D /* GameViewController.swift */,
@@ -74,9 +100,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D34451B11EF848AB00402D4D /* Build configuration list for PBXNativeTarget "Footballgame" */;
 			buildPhases = (
+				53E38527F27CE257C73D75EC /* [CP] Check Pods Manifest.lock */,
 				D34451951EF848AB00402D4D /* Sources */,
 				D34451961EF848AB00402D4D /* Frameworks */,
 				D34451971EF848AB00402D4D /* Resources */,
+				7DEB9E96520BAF5D14ADED28 /* [CP] Embed Pods Frameworks */,
+				6872E7FF25589DD2CD90BEC0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -101,6 +130,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 83H63AD9J8;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -134,6 +168,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		53E38527F27CE257C73D75EC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6872E7FF25589DD2CD90BEC0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Footballgame/Pods-Footballgame-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7DEB9E96520BAF5D14ADED28 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Footballgame/Pods-Footballgame-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D34451951EF848AB00402D4D /* Sources */ = {
@@ -263,8 +345,10 @@
 		};
 		D34451B21EF848AB00402D4D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A61D5CCF89333184AC878868 /* Pods-Footballgame.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Footballgame/Footballgame.entitlements;
 				DEVELOPMENT_TEAM = 83H63AD9J8;
 				INFOPLIST_FILE = Footballgame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -276,8 +360,10 @@
 		};
 		D34451B31EF848AB00402D4D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 425831A3FA14374F82B00D02 /* Pods-Footballgame.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Footballgame/Footballgame.entitlements;
 				DEVELOPMENT_TEAM = 83H63AD9J8;
 				INFOPLIST_FILE = Footballgame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
