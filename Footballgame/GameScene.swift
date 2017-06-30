@@ -96,6 +96,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(ball)
     }
     
+    func addDanger(){
+        
+        let waitDuration = TimeInterval(arc4random_uniform(3))
+        
+        let waitAction = SKAction.wait(forDuration: waitDuration)
+        let ballAction = SKAction.run(self.addBoutle)
+        
+        run(SKAction.repeatForever(SKAction.sequence([waitAction, ballAction])))
+        
+        
+        
+    }
+    
+    func addBoutle(){
+        let screenSize = UIScreen.main.bounds
+        let obsTexture = SKTexture(imageNamed: "boutle")
+        let spriteBoutle = SKSpriteNode(texture: obsTexture)
+        spriteBoutle.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: spriteBoutle.size.width,
+                                                                     height: spriteBoutle.size.height))
+        spriteBoutle.physicsBody?.isDynamic=true
+        spriteBoutle.physicsBody?.affectedByGravity=true
+        
+        spriteBoutle.physicsBody?.friction = 0
+        spriteBoutle.physicsBody?.restitution = 0
+        spriteBoutle.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        spriteBoutle.physicsBody?.categoryBitMask = PhysicsCatagory.Obstacle
+        spriteBoutle.physicsBody?.collisionBitMask = PhysicsCatagory.Ball
+        spriteBoutle.physicsBody?.contactTestBitMask = PhysicsCatagory.Ball
+        spriteBoutle.position = CGPoint(x: CGFloat(arc4random_uniform(UInt32(screenSize.width))), y: screenSize.height/2 + spriteBoutle.size.height)
+        spriteBoutle.physicsBody?.linearDamping=0.1
+        spriteBoutle.physicsBody?.angularDamping=0.1
+        spriteBoutle.physicsBody?.velocity = CGVector(dx:0,dy:0)
+        self.addChild(spriteBoutle)
+    }
     
     
     func addGround(){
@@ -183,6 +217,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
            
         }
         
+        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Obstacle) || (firstBody.categoryBitMask == PhysicsCatagory.Obstacle && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
+            print("game over")
+            gameOverDel?.gameOver(score: score)
+            ball.removeFromParent()
+            scoreLbl.removeFromParent()
+            
+        }
+        
         
     }
     
@@ -193,7 +235,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let kneeTexture = SKTexture(imageNamed: "knee")
         
         sprite = SKSpriteNode(texture: kneeTexture)
-        sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
+        sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: sprite.size.width,
+                                                               height: sprite.size.height))
         
         
         //sprite.physicsBody = SKPhysicsBody(texture: kneeTexture,

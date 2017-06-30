@@ -14,6 +14,9 @@
 		D34451A81EF848AB00402D4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D34451A61EF848AB00402D4D /* Main.storyboard */; };
 		D34451AA1EF848AB00402D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D34451A91EF848AB00402D4D /* Assets.xcassets */; };
 		D34451AD1EF848AB00402D4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D34451AB1EF848AB00402D4D /* LaunchScreen.storyboard */; };
+		D3549F491F05335600242BE0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3549F481F05335600242BE0 /* GoogleService-Info.plist */; };
+		D3549F4B1F05519100242BE0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3549F4A1F05519100242BE0 /* DataService.swift */; };
+		D39E3B461F069D73000E0118 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39E3B451F069D73000E0118 /* GameKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		D34451AC1EF848AB00402D4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D34451AE1EF848AB00402D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3549F471F052A7500242BE0 /* Footballgame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Footballgame.entitlements; sourceTree = "<group>"; };
+		D3549F481F05335600242BE0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D3549F4A1F05519100242BE0 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		D39E3B451F069D73000E0118 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +43,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A093E90DE47DFF38A7308447 /* Pods_Footballgame.framework in Frameworks */,
+				D39E3B461F069D73000E0118 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +62,7 @@
 		7318D7DB56730333984BA249 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D39E3B451F069D73000E0118 /* GameKit.framework */,
 				98F16BD775BE00E38E3DAC0D /* Pods_Footballgame.framework */,
 			);
 			name = Frameworks;
@@ -89,6 +97,8 @@
 				D34451A91EF848AB00402D4D /* Assets.xcassets */,
 				D34451AB1EF848AB00402D4D /* LaunchScreen.storyboard */,
 				D34451AE1EF848AB00402D4D /* Info.plist */,
+				D3549F481F05335600242BE0 /* GoogleService-Info.plist */,
+				D3549F4A1F05519100242BE0 /* DataService.swift */,
 			);
 			path = Footballgame;
 			sourceTree = "<group>";
@@ -131,6 +141,9 @@
 						DevelopmentTeam = 83H63AD9J8;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
@@ -162,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D34451A81EF848AB00402D4D /* Main.storyboard in Resources */,
+				D3549F491F05335600242BE0 /* GoogleService-Info.plist in Resources */,
 				D34451AA1EF848AB00402D4D /* Assets.xcassets in Resources */,
 				D34451AD1EF848AB00402D4D /* LaunchScreen.storyboard in Resources */,
 			);
@@ -225,6 +239,7 @@
 				D34451A31EF848AB00402D4D /* GameScene.swift in Sources */,
 				D34451A51EF848AB00402D4D /* GameViewController.swift in Sources */,
 				D344519D1EF848AB00402D4D /* AppDelegate.swift in Sources */,
+				D3549F4B1F05519100242BE0 /* DataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,7 +367,7 @@
 				DEVELOPMENT_TEAM = 83H63AD9J8;
 				INFOPLIST_FILE = Footballgame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.galkina.Footballgame;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gala.Footballgame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -367,7 +382,7 @@
 				DEVELOPMENT_TEAM = 83H63AD9J8;
 				INFOPLIST_FILE = Footballgame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.galkina.Footballgame;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gala.Footballgame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

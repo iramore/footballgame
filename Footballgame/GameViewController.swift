@@ -9,16 +9,23 @@
 import UIKit
 import SpriteKit
 import GameplayKit
-import FBSDKLoginKit
+import GameKit
 
-class GameViewController: UIViewController, GameOverDelegate {
+let BASE_URL = "https://jokes-matt-maher.firebaseio.com"
+
+class GameViewController: UIViewController, GameOverDelegate, GKGameCenterControllerDelegate {
+    
+    
+    @IBAction func gcLeaderboardPressed(_ sender: Any) {
+        saveHighscore(number: Int(gameOverLblScore.text!)!)
+        showLeaderBoard()
+    }
     
     internal func gameOver(score: Int) {
         gameOverView.isHidden = false
         gameOverLblScore.text = "\(score)"
     }
 
-    @IBOutlet weak var facebookBtn: UIButton!
     
     @IBOutlet weak var gameOverLblScore: UILabel!
     var scene: GameScene!
@@ -39,6 +46,7 @@ class GameViewController: UIViewController, GameOverDelegate {
         scene.gameOverDel = self
         scene.addBall()
         scene.addGround()
+        scene.addDanger()
         skView.presentScene(scene)
     }
     
@@ -58,29 +66,89 @@ class GameViewController: UIViewController, GameOverDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         beginGame()
-        facebookBtn.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
+        authPlayer()
+      //  facebookBtn.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
     }
     
-    func handleCustomFBLogin() {
-        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
-            if err != nil {
-                print("Custom FB Login failed:", err)
-                return
+//    func handleCustomFBLogin() {
+//        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+//            if err != nil {
+//                print("Custom FB Login failed:", err)
+//                return
+//            }
+//            
+//            
+//            self.showEmailAddress()
+//        }
+//    }
+    
+//    func showEmailAddress() {
+//        let accessToken = FBSDKAccessToken.current()
+//        guard let accessTokenString = accessToken?.tokenString else { return }
+//        
+//        let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
+//        Auth.auth().signIn(with: credentials, completion: { (user, error) in
+//            if error != nil {
+//                print("Something went wrong with our FB user: ", error ?? "")
+//                return
+//            }
+//            
+//            print("Successfully logged in with our user: ", user ?? "")
+//        })
+//        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start { (connection, result, err) in
+//            
+//            if err != nil {
+//                print("Failed to start graph request:", err)
+//                return
+//            }
+//            print(result)
+//        }
+//    }
+    
+    
+    
+    func authPlayer(){
+        let localPlayer = GKLocalPlayer.localPlayer()
+        localPlayer.authenticateHandler = {
+            (view, error) in
+            if view != nil {
+                self.present(view!, animated: true, completion: nil)
             }
-            
-            self.showEmailAddress()
+            else {
+                print(GKLocalPlayer.localPlayer().isAuthenticated)
+            }
         }
     }
     
-    func showEmailAddress() {
-        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start { (connection, result, err) in
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func saveHighscore(number : Int){
+        
+        if GKLocalPlayer.localPlayer().isAuthenticated {
             
-            if err != nil {
-                print("Failed to start graph request:", err)
-                return
-            }
-            print(result)
+            let scoreReporter = GKScore(leaderboardIdentifier: "leaderboard")
+            
+            scoreReporter.value = Int64(number)
+            
+            let scoreArray : [GKScore] = [scoreReporter]
+            
+            GKScore.report(scoreArray, withCompletionHandler: nil)
+            
         }
+        
+        
+    }
+    
+    func showLeaderBoard(){
+        let viewController = self.view.window?.rootViewController
+        let gcvc = GKGameCenterViewController()
+        
+        gcvc.gameCenterDelegate = self
+        
+        viewController?.present(gcvc, animated: true, completion: nil)
     }
     
     override var shouldAutorotate: Bool {
