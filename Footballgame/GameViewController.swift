@@ -11,8 +11,6 @@ import SpriteKit
 import GameplayKit
 import GameKit
 
-let BASE_URL = "https://jokes-matt-maher.firebaseio.com"
-
 class GameViewController: UIViewController, GameOverDelegate, GKGameCenterControllerDelegate {
     
     
@@ -46,7 +44,7 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
         scene.gameOverDel = self
         scene.addBall()
         scene.addGround()
-        scene.addDanger()
+       // scene.addDanger()
         skView.presentScene(scene)
     }
     

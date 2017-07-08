@@ -23,7 +23,6 @@ protocol GameOverDelegate: class {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var gameOverDel: GameOverDelegate?
-    
     var startLocation:CGPoint?
     var ball : SKSpriteNode
     var distance: CGFloat = 0.0
@@ -97,16 +96,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addDanger(){
-        
         let waitDuration = TimeInterval(arc4random_uniform(3))
-        
         let waitAction = SKAction.wait(forDuration: waitDuration)
         let ballAction = SKAction.run(self.addBoutle)
-        
         run(SKAction.repeatForever(SKAction.sequence([waitAction, ballAction])))
-        
-        
-        
     }
     
     func addBoutle(){
@@ -235,8 +228,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let kneeTexture = SKTexture(imageNamed: "knee")
         
         sprite = SKSpriteNode(texture: kneeTexture)
-        sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: sprite.size.width,
-                                                               height: sprite.size.height))
+        sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width+10)
+        //sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: sprite.size.width,
+        //                                                       height: sprite.size.height))
         
         
         //sprite.physicsBody = SKPhysicsBody(texture: kneeTexture,

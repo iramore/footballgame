@@ -17,6 +17,7 @@
 		D3549F491F05335600242BE0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3549F481F05335600242BE0 /* GoogleService-Info.plist */; };
 		D3549F4B1F05519100242BE0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3549F4A1F05519100242BE0 /* DataService.swift */; };
 		D39E3B461F069D73000E0118 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39E3B451F069D73000E0118 /* GameKit.framework */; };
+		D3E2A4931F112F3F00C010F9 /* PauseMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2A4921F112F3F00C010F9 /* PauseMenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		D3549F481F05335600242BE0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D3549F4A1F05519100242BE0 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		D39E3B451F069D73000E0118 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		D3E2A4921F112F3F00C010F9 /* PauseMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseMenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				D34451AE1EF848AB00402D4D /* Info.plist */,
 				D3549F481F05335600242BE0 /* GoogleService-Info.plist */,
 				D3549F4A1F05519100242BE0 /* DataService.swift */,
+				D3E2A4921F112F3F00C010F9 /* PauseMenuViewController.swift */,
 			);
 			path = Footballgame;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3E2A4931F112F3F00C010F9 /* PauseMenuViewController.swift in Sources */,
 				D34451A31EF848AB00402D4D /* GameScene.swift in Sources */,
 				D34451A51EF848AB00402D4D /* GameViewController.swift in Sources */,
 				D344519D1EF848AB00402D4D /* AppDelegate.swift in Sources */,
