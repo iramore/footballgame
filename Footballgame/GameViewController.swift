@@ -13,38 +13,53 @@ import GameKit
 
 class GameViewController: UIViewController, GameOverDelegate, GKGameCenterControllerDelegate {
     
+    var pause = false
+    
     
     @IBAction func gcLeaderboardPressed(_ sender: Any) {
         saveHighscore(number: Int(gameOverLblScore.text!)!)
         showLeaderBoard()
     }
     
-    internal func gameOver(score: Int) {
-        gameOverView.isHidden = false
-        gameOverLblScore.text = "\(score)"
+    @IBAction func pauseBtnPressed(_ sender: Any) {
+        pause = !pause
+        scene.isPaused = pause
+        scene.touchable = !scene.touchable
     }
-
+    
+   
+    @IBOutlet weak var pauseBtn: UIButton!
     
     @IBOutlet weak var gameOverLblScore: UILabel!
     var scene: GameScene!
     
     @IBAction func restartBtnAct(_ sender: Any) {
         beginGame()
+        scene.addBall()
     }
     
     @IBOutlet weak var gameOverView: UIView!
+    
+    
+    internal func gameOver(score: Int) {
+        pauseBtn.isHidden = true
+        gameOverView.isHidden = false
+        gameOverLblScore.text = "\(score)"
+        scene.touchable = false
+    }
+
     func beginGame(){
         gameOverView.isHidden = true
+        pauseBtn.isHidden = false
         let skView = view as! SKView
         //skView.isMultipleTouchEnabled = false
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+//        skView.showsFPS = true
+//        skView.showsNodeCount = true
         skView.showsPhysics = true
         scene = GameScene(size: skView.bounds.size)
         scene.gameOverDel = self
-        scene.addBall()
+        //scene.addBall()
         scene.addGround()
-       // scene.addDanger()
         skView.presentScene(scene)
     }
     
@@ -63,9 +78,17 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        beginGame()
+        gameOverView.isHidden = true
         authPlayer()
       //  facebookBtn.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        beginGame()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        scene.addBall()
     }
     
 //    func handleCustomFBLogin() {
@@ -124,28 +147,18 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
     }
     
     func saveHighscore(number : Int){
-        
         if GKLocalPlayer.localPlayer().isAuthenticated {
-            
             let scoreReporter = GKScore(leaderboardIdentifier: "leaderboard")
-            
             scoreReporter.value = Int64(number)
-            
             let scoreArray : [GKScore] = [scoreReporter]
-            
             GKScore.report(scoreArray, withCompletionHandler: nil)
-            
         }
-        
-        
     }
     
     func showLeaderBoard(){
         let viewController = self.view.window?.rootViewController
         let gcvc = GKGameCenterViewController()
-        
         gcvc.gameCenterDelegate = self
-        
         viewController?.present(gcvc, animated: true, completion: nil)
     }
     
