@@ -41,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override init(size: CGSize) {
         let screenSize = UIScreen.main.bounds
         ball = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 55,height:  55))
-        let ballTexture = SKTexture(imageNamed: "ball")
+        let ballTexture = SKTexture(imageNamed: "ball_usual")
         
         ball.texture = ballTexture
         let kneeTexture = SKTexture(imageNamed: "knee")
@@ -82,7 +82,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addBall(){
         let screenSize = UIScreen.main.bounds
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width/2)
-        ball.physicsBody?.restitution = 1
+        //ball.physicsBody?.applyImpulse(CGVector(dx: dx,dy: dy))
+       // ball.zRotation = M_PI/4.0
+        ball.physicsBody?.restitution = 1.0
         ball.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         ball.physicsBody?.friction = 0
         ball.physicsBody?.categoryBitMask = PhysicsCatagory.Ball
@@ -237,16 +239,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addObs(t: UITouch){
         
         let kneeTexture = SKTexture(imageNamed: "knee")
+        let obsTexture = SKTexture(imageNamed: "obs_pb")
         
         sprite = SKSpriteNode(texture: kneeTexture)
-        sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width+10)
+        //sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
         //sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: sprite.size.width,
         //                                                       height: sprite.size.height))
         
         
-        //sprite.physicsBody = SKPhysicsBody(texture: kneeTexture,
-        // size: CGSize(width: sprite.size.width,
-        //    height: sprite.size.height))
+        sprite.physicsBody = SKPhysicsBody(texture: obsTexture,
+         size: CGSize(width: obsTexture.size().width,
+            height: obsTexture.size().height))
+        var r:CGFloat = 5.0
+        var dx = r * cos (sprite.zRotation)
+        var dy = r * sin (sprite.zRotation)
+        sprite.physicsBody?.applyImpulse(CGVector(dx: dx,dy: dy))
         
         sprite.physicsBody?.isDynamic=false
         sprite.physicsBody?.affectedByGravity=false
