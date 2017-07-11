@@ -33,12 +33,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var sprites = [SKSpriteNode]()
     var score:Int = 0
     var touchable = true
+    var timer: Timer?
+    var counter = 0
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
     }
     
     override init(size: CGSize) {
+        
         let screenSize = UIScreen.main.bounds
         ball = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 55,height:  55))
         let ballTexture = SKTexture(imageNamed: "ball_usual")
@@ -48,6 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         sprite = SKSpriteNode(texture: kneeTexture)
         super.init(size: size)
+        timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(GameScene.timerAction), userInfo:nil ,   repeats: true)
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         let background = SKSpriteNode(imageNamed: "back")
         background.size = size
@@ -74,16 +78,132 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLbl.fontSize = 60
         self.addChild(scoreLbl)
     }
-    
-    func pausing(param: Bool){
-        ball.isPaused = true
+    func timerAction(){
+        counter += 1
+        print("counter \(counter)")
     }
+    
+   
+    
+    
+    override func didMove(to view: SKView) {
+    }
+    
+    func touchDown(atPoint pos : CGPoint) {
+        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
+            n.position = pos
+            n.strokeColor = SKColor.yellow
+            self.addChild(n)
+        }
+    }
+    
+    //    func touchMoved(toPoint pos : CGPoint) {
+    //        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
+    //            n.position = pos
+    //            n.strokeColor = SKColor.yellow
+    //            self.addChild(n)
+    //        }
+    //    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touchable {
+            for t in touches {
+                if t.location(in: self).y <= ball.position.y{
+                    //startLocation = t.location(in: self)
+                     addObs(t: touches.first!)
+                }
+                //for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+               
+            }
+        }
+    }
+    
+//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        if touchable {
+//            //for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+//            sprite.position = (touches.first?.location(in: self))!
+//        }
+//    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touchable {
+            removeSprite()
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touchable {
+            removeSprite()
+        }
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let firstBody = contact.bodyA
+        let secondBody = contact.bodyB
+        
+        if ((firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Knee) || (firstBody.categoryBitMask == PhysicsCatagory.Knee && secondBody.categoryBitMask == PhysicsCatagory.Ball)) && counter > 5  {
+            score += 1
+            scoreLbl.text = "\(score)"
+            counter = 0
+            
+        }
+        
+        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Ground) || (firstBody.categoryBitMask == PhysicsCatagory.Ground && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
+            gameOverDel?.gameOver(score: score)
+            ball.removeFromParent()
+            scoreLbl.removeFromParent()
+            
+        }
+        
+        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Obstacle) || (firstBody.categoryBitMask == PhysicsCatagory.Obstacle && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
+            gameOverDel?.gameOver(score: score)
+            ball.removeFromParent()
+            scoreLbl.removeFromParent()
+            
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
+    func removeSprite(){
+        let action = SKAction.fadeOut(withDuration: 1)
+        
+        // let dx = -(t.location(in: self).x - startLocation!.x)
+        //let dy = -(t.location(in: self).y - startLocation!.y)
+        //distance = sqrt(dx*dx + dy*dy )
+        
+        
+        sprite.run(action, completion:
+            {
+                for s in self.sprites {
+                    s.removeFromParent()
+                }
+                self.sprites.removeAll()
+        })
+    }
+    
+    
+    override func update(_ currentTime: TimeInterval) {
+        let screenSize = UIScreen.main.bounds
+        if ball.position.x > screenSize.width/2 + 65 || ball.position.x < -screenSize.width/2 - 65 || ball.position.y < -screenSize.height/2 - 100{
+            gameOverDel?.gameOver(score: score)
+            ball.removeFromParent()
+            scoreLbl.removeFromParent()
+        }
+    }
+}
+extension GameScene{
     
     func addBall(){
         let screenSize = UIScreen.main.bounds
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width/2)
         //ball.physicsBody?.applyImpulse(CGVector(dx: dx,dy: dy))
-       // ball.zRotation = M_PI/4.0
+        // ball.zRotation = M_PI/4.0
         ball.physicsBody?.restitution = 1.0
         ball.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         ball.physicsBody?.friction = 0
@@ -154,88 +274,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(spriteGround)
         
     }
-    
-    
-    override func didMove(to view: SKView) {
-    }
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.yellow
-            self.addChild(n)
-        }
-    }
-    
-//    func touchMoved(toPoint pos : CGPoint) {
-//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//            n.position = pos
-//            n.strokeColor = SKColor.yellow
-//            self.addChild(n)
-//        }
-//    }
-    
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if touchable {
-            for t in touches {
-                startLocation = t.location(in: self)
-            }
-        //for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-        
-            addObs(t: touches.first!)
-        }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-         if touchable {
-            //for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-            sprite.position = (touches.first?.location(in: self))!
-        }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if touchable {
-            removeSprite()
-        }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if touchable {
-            removeSprite()
-        }
-    }
-    
-    func didBegin(_ contact: SKPhysicsContact) {
-        let firstBody = contact.bodyA
-        let secondBody = contact.bodyB
-        
-        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Knee) || (firstBody.categoryBitMask == PhysicsCatagory.Knee && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
-            score += 1
-            scoreLbl.text = "\(score)"
-            
-           
-        }
-        
-        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Ground) || (firstBody.categoryBitMask == PhysicsCatagory.Ground && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
-            gameOverDel?.gameOver(score: score)
-            ball.removeFromParent()
-            scoreLbl.removeFromParent()
-           
-        }
-        
-        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Obstacle) || (firstBody.categoryBitMask == PhysicsCatagory.Obstacle && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
-            gameOverDel?.gameOver(score: score)
-            ball.removeFromParent()
-            scoreLbl.removeFromParent()
-            
-        }
-        
-        
-    }
-    
-    
-    
     func addObs(t: UITouch){
         
         let kneeTexture = SKTexture(imageNamed: "knee")
@@ -248,13 +286,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         sprite.physicsBody = SKPhysicsBody(texture: obsTexture,
-         size: CGSize(width: obsTexture.size().width,
-            height: obsTexture.size().height))
-        var r:CGFloat = 5.0
-        var dx = r * cos (sprite.zRotation)
-        var dy = r * sin (sprite.zRotation)
-        sprite.physicsBody?.applyImpulse(CGVector(dx: dx,dy: dy))
-        
+                                           size: CGSize(width: obsTexture.size().width,
+                                                        height: obsTexture.size().height))
         sprite.physicsBody?.isDynamic=false
         sprite.physicsBody?.affectedByGravity=false
         
@@ -272,32 +305,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprites.append(sprite)
         self.addChild(sprite)
         
-    }
-    
-    func removeSprite(){
-        let action = SKAction.fadeOut(withDuration: 1)
-        
-        // let dx = -(t.location(in: self).x - startLocation!.x)
-        //let dy = -(t.location(in: self).y - startLocation!.y)
-        //distance = sqrt(dx*dx + dy*dy )
-        
-        
-        sprite.run(action, completion:
-            {
-                for s in self.sprites {
-                    s.removeFromParent()
-                }
-                self.sprites.removeAll()
-        })
-    }
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        let screenSize = UIScreen.main.bounds
-        if ball.position.x > screenSize.width/2 + 65 || ball.position.x < -screenSize.width/2 - 65 || ball.position.y < -screenSize.height/2 - 100{
-            gameOverDel?.gameOver(score: score)
-            ball.removeFromParent()
-            scoreLbl.removeFromParent()
-        }
     }
 }

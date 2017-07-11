@@ -25,39 +25,48 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shop_back" translatesAutoresizingMaskIntoConstraints="NO" id="B2M-Gw-FPg">
-                                <rect key="frame" x="20" y="93.666666666666686" width="374" height="549"/>
+                                <rect key="frame" x="42.666666666666657" y="83" width="329" height="570"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="B2M-Gw-FPg" secondAttribute="height" multiplier="17:25" id="qc1-k0-Cwe"/>
+                                    <constraint firstAttribute="width" secondItem="B2M-Gw-FPg" secondAttribute="height" multiplier="329:570" id="qc1-k0-Cwe"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3w-AH-HXd">
+                                <rect key="frame" x="352" y="68" width="39" height="30"/>
+                                <state key="normal" title="Close">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="closeAction:" destination="YRt-BO-1Yr" eventType="touchUpInside" id="SYW-Gb-GGh"/>
+                                </connections>
+                            </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pv4-Yx-EP4">
-                                <rect key="frame" x="49" y="124.66666666666666" width="317" height="475.33333333333337"/>
+                                <rect key="frame" x="69.666666666666686" y="114.66666666666666" width="274" height="493"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Pv4-Yx-EP4" secondAttribute="height" multiplier="2:3" id="67v-5J-iE8"/>
+                                    <constraint firstAttribute="width" secondItem="Pv4-Yx-EP4" secondAttribute="height" multiplier="274:493" id="3hc-UY-lae"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sf9-gc-zwF">
-                                    <size key="itemSize" width="105" height="116"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="sf9-gc-zwF">
+                                    <size key="itemSize" width="96" height="114"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="8" minY="8" maxX="8" maxY="8"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="7kk-0t-sno" customClass="ShopCellViewController" customModule="Footballgame" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="105" height="116"/>
+                                        <rect key="frame" x="8" y="8" width="96" height="114"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="105" height="116"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="96" height="114"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Bl-Zi-GPB">
+                                                    <rect key="frame" x="4" y="0.0" width="88" height="82"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Vh-OX-e7R">
-                                                    <rect key="frame" x="3" y="86" width="110" height="30"/>
+                                                    <rect key="frame" x="0.0" y="90" width="96" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" backgroundImage="shop_btn"/>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Bl-Zi-GPB">
-                                                    <rect key="frame" x="8" y="7" width="88" height="73"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                             </subviews>
                                         </view>
                                         <connections>
@@ -70,26 +79,17 @@
                                     <outlet property="dataSource" destination="YRt-BO-1Yr" id="44c-mN-OEC"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3w-AH-HXd">
-                                <rect key="frame" x="374.66666666666669" y="78.666666666666671" width="39" height="30"/>
-                                <state key="normal" title="Close">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="closeAction:" destination="YRt-BO-1Yr" eventType="touchUpInside" id="SYW-Gb-GGh"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="B2M-Gw-FPg" firstAttribute="width" secondItem="bfP-dV-6Up" secondAttribute="height" multiplier="187:368" id="7py-lZ-Mgf"/>
+                            <constraint firstItem="Pv4-Yx-EP4" firstAttribute="width" secondItem="B2M-Gw-FPg" secondAttribute="height" multiplier="137:285" id="2oV-NX-xjU"/>
+                            <constraint firstItem="B2M-Gw-FPg" firstAttribute="width" secondItem="bfP-dV-6Up" secondAttribute="height" multiplier="329:736" id="7py-lZ-Mgf"/>
                             <constraint firstItem="Pv4-Yx-EP4" firstAttribute="centerX" secondItem="B2M-Gw-FPg" secondAttribute="centerX" id="8Wx-Nk-Mdv"/>
                             <constraint firstItem="B2M-Gw-FPg" firstAttribute="top" secondItem="u3w-AH-HXd" secondAttribute="centerY" id="AQO-6N-IZA"/>
+                            <constraint firstItem="Pv4-Yx-EP4" firstAttribute="centerY" secondItem="B2M-Gw-FPg" secondAttribute="centerY" constant="-7" id="e2J-5T-Tvp"/>
                             <constraint firstItem="u3w-AH-HXd" firstAttribute="centerX" secondItem="B2M-Gw-FPg" secondAttribute="trailing" id="mS8-H2-Xns"/>
                             <constraint firstItem="B2M-Gw-FPg" firstAttribute="centerY" secondItem="bfP-dV-6Up" secondAttribute="centerY" id="rc7-T7-rT6"/>
-                            <constraint firstItem="Pv4-Yx-EP4" firstAttribute="width" secondItem="B2M-Gw-FPg" secondAttribute="height" multiplier="159:275" id="uPb-f6-1hl"/>
                             <constraint firstItem="B2M-Gw-FPg" firstAttribute="centerX" secondItem="bfP-dV-6Up" secondAttribute="centerX" id="ya5-3M-uRb"/>
-                            <constraint firstItem="Pv4-Yx-EP4" firstAttribute="top" secondItem="B2M-Gw-FPg" secondAttribute="top" constant="31" id="yla-hU-Bxi"/>
                         </constraints>
                     </view>
                     <connections>
@@ -98,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PD1-WA-nfT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="947.82608695652186" y="-18.75"/>
+            <point key="canvasLocation" x="1131.8840579710145" y="-26.086956521739133"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="2fk-6X-XZV">
@@ -180,7 +180,7 @@
                                         <rect key="frame" x="0.66666666666665719" y="0.33333333333331439" width="329" height="571"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8we-8y-Fld">
-                                        <rect key="frame" x="57.333333333333343" y="385.33333333333331" width="215.66666666666666" height="132.99999999999994"/>
+                                        <rect key="frame" x="57.666666666666657" y="385.33333333333331" width="215.33333333333334" height="132.99999999999994"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8we-8y-Fld" secondAttribute="height" multiplier="184:119" constant="10.35294117647058" id="uCZ-V8-XpX"/>
                                         </constraints>
@@ -208,7 +208,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MlQ-UI-zu9" userLabel="cupBtn">
-                                        <rect key="frame" x="130.66666666666666" y="287" width="71" height="73.333333333333314"/>
+                                        <rect key="frame" x="131" y="287" width="70.666666666666657" height="73.333333333333314"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="MlQ-UI-zu9" secondAttribute="height" multiplier="71:73" id="aps-3V-nsT"/>
                                         </constraints>
@@ -271,7 +271,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="174" y="516"/>
+            <point key="canvasLocation" x="290" y="524"/>
         </scene>
     </scenes>
     <resources>
