@@ -14,6 +14,7 @@ struct PhysicsCatagory {
     static let Knee : UInt32 = 0x1 << 3
     static let Ball : UInt32 = 0x1 << 2
     static let Ground : UInt32 = 0x1 << 4
+    static let Coin : UInt32 = 0x1 << 5
 }
 
 protocol GameOverDelegate: class {
@@ -25,6 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOverDel: GameOverDelegate?
     var startLocation:CGPoint?
     var ball : SKSpriteNode
+    var coin : SKSpriteNode
     var distance: CGFloat = 0.0
     var yVelocity:CGFloat = 0.0
     private var spinnyNode : SKShapeNode?
@@ -35,13 +37,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var touchable = true
     var timer: Timer?
     var counter = 0
+    var coinAnimation: SKAction
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
     }
     
     override init(size: CGSize) {
-        
+        print("init")
+        var textures:[SKTexture] = []
+        textures.append(SKTexture(imageNamed: "coin1"))
+        textures.append(SKTexture(imageNamed: "coin2"))
+        coin = SKSpriteNode(texture: SKTexture(imageNamed: "coin1"))
+        coin.position = CGPoint(x: -400, y: -400)
+        coinAnimation = SKAction.animate(with: textures,
+                                         timePerFrame: 0.1)
         let screenSize = UIScreen.main.bounds
         ball = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 55,height:  55))
         let ballTexture = SKTexture(imageNamed: "ball_usual")
@@ -70,7 +80,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }
-        
         scoreLbl.position = CGPoint(x: -screenSize.width/2 + 40, y: screenSize.height/2 - 60)
         scoreLbl.text = "\(score)"
         scoreLbl.fontName = "Avenir"
@@ -78,11 +87,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLbl.fontSize = 60
         self.addChild(scoreLbl)
     }
+    
     func timerAction(){
         counter += 1
-        print("counter \(counter)")
     }
     
+    func startBallAnimation() {
+        if coin.action(forKey: "animation") == nil {
+            coin.run(
+                SKAction.repeatForever(coinAnimation),
+                withKey: "animation")
+        }
+    }
+    
+    func stopBallAnimation() {
+        ball.removeAction(forKey: "animation")
+    }
    
     
     
@@ -114,7 +134,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                      addObs(t: touches.first!)
                 }
                 //for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-               
             }
         }
     }
@@ -155,6 +174,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scoreLbl.removeFromParent()
             
         }
+        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Coin) || (firstBody.categoryBitMask == PhysicsCatagory.Coin && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
+            if secondBody.categoryBitMask == PhysicsCatagory.Coin {
+                secondBody.node?.removeFromParent()
+            } else{
+                firstBody.node?.removeFromParent()
+            }
+            addCoins()
+            score += 2
+            
+            
+        }
         
         if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Obstacle) || (firstBody.categoryBitMask == PhysicsCatagory.Obstacle && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
             gameOverDel?.gameOver(score: score)
@@ -172,12 +202,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func removeSprite(){
         let action = SKAction.fadeOut(withDuration: 1)
-        
         // let dx = -(t.location(in: self).x - startLocation!.x)
         //let dy = -(t.location(in: self).y - startLocation!.y)
         //distance = sqrt(dx*dx + dy*dy )
-        
-        
         sprite.run(action, completion:
             {
                 for s in self.sprites {
@@ -195,6 +222,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.removeFromParent()
             scoreLbl.removeFromParent()
         }
+        if ball.position.x > coin.position.x - coin.size.width/2 &&  ball.position.x < coin.position.x + coin.size.width/2 && ball.position.y < coin.position.y + coin.size.height/2 && ball.position.y > coin.position.y - coin.size.height/2 {
+            print("ball x\(ball.position.x)  y\(ball.position.y)")
+            print("coin x\(coin.position.x)  y\(coin.position.y)")
+            print("coin hit")
+        }
+        
     }
 }
 extension GameScene{
@@ -208,7 +241,7 @@ extension GameScene{
         ball.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         ball.physicsBody?.friction = 0
         ball.physicsBody?.categoryBitMask = PhysicsCatagory.Ball
-        ball.physicsBody?.collisionBitMask = PhysicsCatagory.Ground | PhysicsCatagory.Knee
+        ball.physicsBody?.collisionBitMask = PhysicsCatagory.Ground | PhysicsCatagory.Knee | PhysicsCatagory.Coin
         ball.physicsBody?.contactTestBitMask = PhysicsCatagory.Ground
         ball.physicsBody?.fieldBitMask = 0
         ball.physicsBody?.angularDamping = 0
@@ -227,6 +260,15 @@ extension GameScene{
         let waitAction = SKAction.wait(forDuration: waitDuration)
         let ballAction = SKAction.run(self.addBoutle)
         run(SKAction.repeatForever(SKAction.sequence([waitAction, ballAction])))
+        //run(SKAction.sequence([waitAction, ballAction]))
+    }
+    
+    func addCoins(){
+        let waitDuration = TimeInterval(arc4random_uniform(4))
+        let waitAction = SKAction.wait(forDuration: waitDuration)
+        let coinAction = SKAction.run(self.addCoin)
+        //run(SKAction.repeatForever(SKAction.sequence([waitAction, coinAction])))
+        run(SKAction.sequence([waitAction, coinAction]))
     }
     
     func addBoutle(){
@@ -251,6 +293,30 @@ extension GameScene{
         self.addChild(spriteBoutle)
     }
     
+    func addCoin(){
+        let screenSize = UIScreen.main.bounds
+        
+        //coin.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: coin.size.width,
+         //                                                            height: coin.size.height))
+        //coin.physicsBody?.isDynamic=false
+        //coin.physicsBody?.affectedByGravity=false
+        
+        //coin.physicsBody?.friction = 0
+        //coin.physicsBody?.restitution = 0
+        //coin.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        //coin.physicsBody?.categoryBitMask = PhysicsCatagory.Coin
+        //coin.physicsBody?.collisionBitMask = PhysicsCatagory.Ball
+        //coin.physicsBody?.contactTestBitMask = PhysicsCatagory.Ball
+        let rndX = arc4random_uniform(UInt32(screenSize.width/2))
+        let rndY = arc4random_uniform(UInt32(screenSize.height/2-20))
+        coin.position = CGPoint(x: CGFloat(rndX), y: CGFloat(rndY))
+        //coin.position = CGPoint(x: 30, y: 150)
+        //coin.physicsBody?.linearDamping=0.1
+        //coin.physicsBody?.angularDamping=0.1
+        //coin.physicsBody?.velocity = CGVector(dx:0,dy:0)
+        self.addChild(coin)
+        startBallAnimation()
+    }
     
     func addGround(){
         let screenSize = UIScreen.main.bounds

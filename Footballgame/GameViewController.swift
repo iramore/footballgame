@@ -42,6 +42,7 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
     
     
     internal func gameOver(score: Int) {
+        scene.isPaused = true
         pauseBtn.isHidden = true
         gameOverView.isHidden = false
         gameOverLblScore.text = "\(score)"
@@ -52,29 +53,19 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
         gameOverView.isHidden = true
         pauseBtn.isHidden = false
         let skView = view as! SKView
-        //skView.isMultipleTouchEnabled = false
-//        skView.showsFPS = true
-//        skView.showsNodeCount = true
+//      skView.isMultipleTouchEnabled = false
+//      skView.showsFPS = true
+        skView.showsNodeCount = true
         skView.showsPhysics = true
         scene = GameScene(size: skView.bounds.size)
         scene.gameOverDel = self
         //scene.addBall()
+        scene.addCoins()
         scene.addGround()
         skView.presentScene(scene)
     }
     
-//    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-//        print("Did log out of facebook")
-//    }
-//    
-//    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-//        if error != nil {
-//            print(error)
-//            return
-//        }
-//        
-//        print("Successfully logged in with facebook...")
-//    }
+
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,40 +82,6 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
         scene.addBall()
     }
     
-//    func handleCustomFBLogin() {
-//        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
-//            if err != nil {
-//                print("Custom FB Login failed:", err)
-//                return
-//            }
-//            
-//            
-//            self.showEmailAddress()
-//        }
-//    }
-    
-//    func showEmailAddress() {
-//        let accessToken = FBSDKAccessToken.current()
-//        guard let accessTokenString = accessToken?.tokenString else { return }
-//        
-//        let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
-//        Auth.auth().signIn(with: credentials, completion: { (user, error) in
-//            if error != nil {
-//                print("Something went wrong with our FB user: ", error ?? "")
-//                return
-//            }
-//            
-//            print("Successfully logged in with our user: ", user ?? "")
-//        })
-//        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start { (connection, result, err) in
-//            
-//            if err != nil {
-//                print("Failed to start graph request:", err)
-//                return
-//            }
-//            print(result)
-//        }
-//    }
     
     
     
@@ -136,7 +93,7 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
                 self.present(view!, animated: true, completion: nil)
             }
             else {
-                print(GKLocalPlayer.localPlayer().isAuthenticated)
+                //print(GKLocalPlayer.localPlayer().isAuthenticated)
             }
         }
     }
@@ -182,4 +139,54 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    //    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+    //        print("Did log out of facebook")
+    //    }
+    //
+    //    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+    //        if error != nil {
+    //            print(error)
+    //            return
+    //        }
+    //
+    //        print("Successfully logged in with facebook...")
+    //    }
+    
+    
+    //    func handleCustomFBLogin() {
+    //        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+    //            if err != nil {
+    //                print("Custom FB Login failed:", err)
+    //                return
+    //            }
+    //
+    //
+    //            self.showEmailAddress()
+    //        }
+    //    }
+    
+    //    func showEmailAddress() {
+    //        let accessToken = FBSDKAccessToken.current()
+    //        guard let accessTokenString = accessToken?.tokenString else { return }
+    //
+    //        let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
+    //        Auth.auth().signIn(with: credentials, completion: { (user, error) in
+    //            if error != nil {
+    //                print("Something went wrong with our FB user: ", error ?? "")
+    //                return
+    //            }
+    //
+    //            print("Successfully logged in with our user: ", user ?? "")
+    //        })
+    //        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start { (connection, result, err) in
+    //
+    //            if err != nil {
+    //                print("Failed to start graph request:", err)
+    //                return
+    //            }
+    //            print(result)
+    //        }
+    //    }
+
 }
