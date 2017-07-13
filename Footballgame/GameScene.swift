@@ -174,17 +174,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scoreLbl.removeFromParent()
             
         }
-        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Coin) || (firstBody.categoryBitMask == PhysicsCatagory.Coin && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
-            if secondBody.categoryBitMask == PhysicsCatagory.Coin {
-                secondBody.node?.removeFromParent()
-            } else{
-                firstBody.node?.removeFromParent()
-            }
-            addCoins()
-            score += 2
-            
-            
-        }
+//        if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Coin) || (firstBody.categoryBitMask == PhysicsCatagory.Coin && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
+//            if secondBody.categoryBitMask == PhysicsCatagory.Coin {
+//                secondBody.node?.removeFromParent()
+//            } else{
+//                firstBody.node?.removeFromParent()
+//            }
+//            addCoins()
+//            score += 3
+//            scoreLbl.text = "\(score)"
+//            
+//        }
         
         if (firstBody.categoryBitMask == PhysicsCatagory.Ball && secondBody.categoryBitMask == PhysicsCatagory.Obstacle) || (firstBody.categoryBitMask == PhysicsCatagory.Obstacle && secondBody.categoryBitMask == PhysicsCatagory.Ball)  {
             gameOverDel?.gameOver(score: score)
@@ -195,7 +195,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
-    
+    func addAndRemoveScoreLabelAndCoin(position: CGPoint){
+        let doubleScoreLabel = SKLabelNode(text: "+3")
+        doubleScoreLabel.fontSize = 54
+        doubleScoreLabel.position = position
+        addChild(doubleScoreLabel)
+        coin.removeFromParent()
+        let action = SKAction.scale(by: 1.5, duration: 1)
+        doubleScoreLabel.run(action, completion:
+            {
+                doubleScoreLabel.removeFromParent()
+        })
+        
+        addCoins()
+    }
+
     
     
     
@@ -222,10 +236,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.removeFromParent()
             scoreLbl.removeFromParent()
         }
-        if ball.position.x > coin.position.x - coin.size.width/2 &&  ball.position.x < coin.position.x + coin.size.width/2 && ball.position.y < coin.position.y + coin.size.height/2 && ball.position.y > coin.position.y - coin.size.height/2 {
-            print("ball x\(ball.position.x)  y\(ball.position.y)")
-            print("coin x\(coin.position.x)  y\(coin.position.y)")
-            print("coin hit")
+        if ball.position.x > coin.position.x - coin.size.width/2 &&  ball.position.x < coin.position.x + coin.size.width/2 && ball.position.y < coin.position.y + coin.size.height/2 && ball.position.y > coin.position.y - coin.size.height/2  && coin.parent != nil{
+            addAndRemoveScoreLabelAndCoin(position: coin.position)
+            score += 3
+            scoreLbl.text = "\(score)"
         }
         
     }
@@ -310,7 +324,7 @@ extension GameScene{
         let rndX = arc4random_uniform(UInt32(screenSize.width/2))
         let rndY = arc4random_uniform(UInt32(screenSize.height/2-20))
         coin.position = CGPoint(x: CGFloat(rndX), y: CGFloat(rndY))
-        //coin.position = CGPoint(x: 30, y: 150)
+        //coin.position = CGPoint(x: 10, y: 100)
         //coin.physicsBody?.linearDamping=0.1
         //coin.physicsBody?.angularDamping=0.1
         //coin.physicsBody?.velocity = CGVector(dx:0,dy:0)
