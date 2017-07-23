@@ -54,13 +54,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                          timePerFrame: 0.1)
         let screenSize = UIScreen.main.bounds
         ball = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 55,height:  55))
-        let ballTexture = SKTexture(imageNamed: "ball_usual")
-        
+        let theme = ThemeManager.currentTheme().string
+        let ballTexture = SKTexture(imageNamed: "ball_\(theme)")
         ball.texture = ballTexture
         let kneeTexture = SKTexture(imageNamed: "knee")
-        
+        ball = SKSpriteNode(imageNamed:"ball_\(theme)")
         sprite = SKSpriteNode(texture: kneeTexture)
         super.init(size: size)
+        
         timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(GameScene.timerAction), userInfo:nil ,   repeats: true)
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         let background = SKSpriteNode(imageNamed: "back")
@@ -117,13 +118,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    //    func touchMoved(toPoint pos : CGPoint) {
-    //        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-    //            n.position = pos
-    //            n.strokeColor = SKColor.yellow
-    //            self.addChild(n)
-    //        }
-    //    }
+        func touchMoved(toPoint pos : CGPoint) {
+            if let n = self.spinnyNode?.copy() as! SKShapeNode? {
+                n.position = pos
+                n.strokeColor = SKColor.yellow
+                self.addChild(n)
+            }
+        }
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -138,12 +139,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if touchable {
-//            //for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-//            sprite.position = (touches.first?.location(in: self))!
-//        }
-//    }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touchable {
+            //for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+            sprite.position = (touches.first?.location(in: self))!
+        }
+    }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if touchable {
@@ -203,10 +204,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         coin.removeFromParent()
         let action = SKAction.scale(by: 1.5, duration: 1)
         doubleScoreLabel.run(action, completion:
-            {
-                doubleScoreLabel.removeFromParent()
+        {
+            doubleScoreLabel.removeFromParent()
         })
-        
         addCoins()
     }
 
@@ -248,10 +248,19 @@ extension GameScene{
     
     func addBall(){
         let screenSize = UIScreen.main.bounds
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width/2)
+        let theme = ThemeManager.currentTheme().string
+        let ballTexture = SKTexture(imageNamed: "ball_\(theme)")
+        //ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width/2)
+        ball.physicsBody = SKPhysicsBody(texture: ballTexture,
+                                                      size: CGSize(width: ballTexture.size().width,
+                                                                   height: ballTexture.size().height))
         //ball.physicsBody?.applyImpulse(CGVector(dx: dx,dy: dy))
-        // ball.zRotation = M_PI/4.0
+        //ball.zRotation = M_PI/4.0
+        ball.physicsBody?.allowsRotation = true
         ball.physicsBody?.restitution = 1.0
+        ball.physicsBody?.angularDamping = 0.4
+        ball.physicsBody?.linearDamping = 0.4
+        ball.physicsBody?.density = 0.2
         ball.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         ball.physicsBody?.friction = 0
         ball.physicsBody?.categoryBitMask = PhysicsCatagory.Ball
@@ -267,6 +276,7 @@ extension GameScene{
         ball.position = CGPoint(x: 0, y: screenSize.height/2)
         ball.physicsBody?.affectedByGravity=true
         addChild(ball)
+        changePhCaratOfBall()
     }
     
     func addDanger(){
@@ -370,6 +380,7 @@ extension GameScene{
                                                         height: obsTexture.size().height))
         sprite.physicsBody?.isDynamic=false
         sprite.physicsBody?.affectedByGravity=false
+        //sprite.physicsBody?.density = 0.1
         
         sprite.physicsBody?.friction = 0
         sprite.physicsBody?.restitution = 0
@@ -385,5 +396,28 @@ extension GameScene{
         sprites.append(sprite)
         self.addChild(sprite)
         
+    }
+    
+    func changePhCaratOfBall(){
+        let theme = ThemeManager.currentTheme().string
+        switch theme {
+        case ThemeBall.tennis.string:
+            print("usual")
+            self.physicsWorld.gravity = CGVector(dx: 0,dy: -9.8)
+        case ThemeBall.tennis.string:
+            print("tennis")
+            self.physicsWorld.gravity = CGVector(dx: 0,dy: -12)
+        case ThemeBall.balloon.string:
+            print("balloon")
+            self.physicsWorld.gravity = CGVector(dx: 0,dy: -2)
+        case ThemeBall.golf.string:
+            print("golf")
+             self.physicsWorld.gravity = CGVector(dx: 0,dy: -6)
+        case ThemeBall.big_balloon.string:
+            print("big_balloon")
+            self.physicsWorld.gravity = CGVector(dx: 0,dy: -2)
+        default:
+            print("default")
+        }
     }
 }

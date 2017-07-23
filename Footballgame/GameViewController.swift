@@ -70,7 +70,7 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
     override func viewDidLoad() {
         super.viewDidLoad()
         gameOverView.isHidden = true
-        authPlayer()
+        //authPlayer()
       //  facebookBtn.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
     }
     

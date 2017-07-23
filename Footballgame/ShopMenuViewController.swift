@@ -31,11 +31,12 @@ class ShopMenuViewController: UIViewController, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(ThemeBall.count)
         return ThemeBall.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let theWidth = (collectionView.bounds.width - (8*3))/2
+        let theWidth = (collectionView.bounds.width - (10*3))/2
         let theHeight = theWidth*1.5
         return CGSize(width: theWidth ,height: theHeight)
     }
@@ -71,16 +72,18 @@ class ShopMenuViewController: UIViewController, UICollectionViewDataSource, UICo
     func numberOfSections(in collectionView: UICollectionView) -> Int {
        return 2
     }
-     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = UIColor.red
-    }
+//     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+//        let cell = collectionView.cellForItem(at: indexPath)
+//        cell?.backgroundColor = UIColor.red
+//    }
     
    
      func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = UIColor.cyan
+        //cell?.backgroundColor = UIColor.cyan
+        NSLog("You selected cell number: \(indexPath.item)!")
         UserDefaults.standard.setValue(indexPath.item, forKey: SelectedBallKey)
+        dismiss(animated: true, completion: nil)
     }
 
 }

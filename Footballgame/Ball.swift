@@ -10,29 +10,29 @@ import Foundation
 let SelectedBallKey = "SelectedBall"
 
 enum ThemeBall: Int{
-    case  usual = 0, blue, dark_blue, green, pink, purple,  red, yellow
+    case  usual = 0, golf, dark_blue, green, big_balloon, purple,  balloon, tennis
     
-    static var count: Int { return ThemeBall.yellow.hashValue + 1}
+    static var count: Int { return ThemeBall.tennis.hashValue + 1}
     
     
     var prefix: String{
         switch self {
         case .usual:
             return "usual"
-        case .blue:
-            return "blue"
+        case .golf:
+            return "golf"
         case .dark_blue:
             return "dark_blue"
         case .green:
             return "green"
-        case .pink:
-            return "pink"
+        case .big_balloon:
+            return "big_balloon"
         case .purple:
             return "purple"
-        case .red:
-            return "red"
-        case .yellow:
-            return "yellow"
+        case .balloon:
+            return "balloon"
+        case .tennis:
+            return "tennis"
         }
     }
     
