@@ -401,14 +401,14 @@ extension GameScene{
     func changePhCaratOfBall(){
         let theme = ThemeManager.currentTheme().string
         switch theme {
-        case ThemeBall.tennis.string:
+        case ThemeBall.usual.string:
             print("usual")
-            self.physicsWorld.gravity = CGVector(dx: 0,dy: -9.8)
+            self.physicsWorld.gravity = CGVector(dx: 0,dy: -6.8)
         case ThemeBall.tennis.string:
             print("tennis")
             self.physicsWorld.gravity = CGVector(dx: 0,dy: -12)
-        case ThemeBall.balloon.string:
-            print("balloon")
+        case ThemeBall.bowling.string:
+            print("bowling")
             self.physicsWorld.gravity = CGVector(dx: 0,dy: -2)
         case ThemeBall.golf.string:
             print("golf")

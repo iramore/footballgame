@@ -10,7 +10,7 @@ import Foundation
 let SelectedBallKey = "SelectedBall"
 
 enum ThemeBall: Int{
-    case  usual = 0, golf, dark_blue, green, big_balloon, purple,  balloon, tennis
+    case  usual = 0, golf, baseball, bascketball, big_balloon, fitball,  bowling, billiards, tennis
     
     static var count: Int { return ThemeBall.tennis.hashValue + 1}
     
@@ -21,18 +21,20 @@ enum ThemeBall: Int{
             return "usual"
         case .golf:
             return "golf"
-        case .dark_blue:
-            return "dark_blue"
-        case .green:
-            return "green"
+        case .baseball:
+            return "baseball"
+        case .bascketball:
+            return "bascketball"
         case .big_balloon:
             return "big_balloon"
-        case .purple:
-            return "purple"
-        case .balloon:
-            return "balloon"
+        case .fitball:
+            return "fitball"
+        case .bowling :
+            return "bowling"
         case .tennis:
             return "tennis"
+        case .billiards:
+            return "billiards"
         }
     }
     

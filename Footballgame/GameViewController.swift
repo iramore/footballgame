@@ -23,6 +23,10 @@ class GameViewController: UIViewController, GameOverDelegate, GKGameCenterContro
     
     @IBAction func pauseBtnPressed(_ sender: Any) {
         pause = !pause
+        if pause {pauseBtn.setImage(#imageLiteral(resourceName: "pause_play"), for: .normal )
+        } else {
+            pauseBtn.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+        }
         scene.isPaused = pause
         scene.touchable = !scene.touchable
     }

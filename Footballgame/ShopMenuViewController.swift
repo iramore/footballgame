@@ -61,7 +61,7 @@ class ShopMenuViewController: UIViewController, UICollectionViewDataSource, UICo
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! ShopCellViewController
         if let value = ThemeBall(rawValue: indexPath.item) {
-            cell.iamge.image = UIImage(named: "ball_\(value.string)")
+            cell.iamge.image = UIImage(named: "ball_\(value.string)_for_shop")
             //cell.backgroundColor = UIColor.blue
             //cell.label.text = value.string
         }
